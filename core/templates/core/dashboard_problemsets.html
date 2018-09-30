@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% block title %} Dashboard | Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Problemset(s)</li>
+        </ol>
+    </nav>
+    <div class="row">
+        {% if problemsets %}
+        <div class="contest">
+
+            <h5 class="type"><b> &nbsp;Problemset(s): </b></h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        {% for set in problemsets %}
+                        <tr>
+                            <td scope="row">{{ set.title }} <a href="/dashboard/problemsets/{{set.unique_id}}/edit" class="text-muted">(edit)</a>
+                                <p>{{ set.description }} <br /> Duration: {{ set.duration }} minutes.
+                                    <br /> Problems:
+                                    {% for problem in set.problems.all %}
+                                    <span class="bg-success" style="padding: 2px; border-radius: 5px;"><a href="https://codechef.com/problems/{{problem.code}}"
+                                            target="_blank">{{problem.code }}</a></span>
+                                    {% endfor %}
+                                </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endblock %}

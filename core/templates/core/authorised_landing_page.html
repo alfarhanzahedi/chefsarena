@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% block title %} Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/landing.css' %}" />
+{% endblock %}
+{% block body %}
+<div class="container-index">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="seperator">
+                <h2>Practice</h2>
+                <hr class="half">
+                <h4 class="content">Solve algorithmic problems from the past contests, against the clock!</h4>
+
+                <a class="btn btn-outline-success btn-md" href="/contest/practice"> Enter </a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>Battle Royale</h2>
+            <hr class="half">
+            <h4 class="content">Create custom rooms and compete among your friends!</h4>
+            <a href="contest/battle" class="btn btn-outline-success btn-md"> Enter </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

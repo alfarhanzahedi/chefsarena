@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Battle Royale | Chef's Arena
+{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/bootstrap-form.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/battle">Battle Royale</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol>
+    </nav>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 offset-lg-3 offset-md-3 custom-card">
+                <h3>Battle Royale</h3>
+                <hr />
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% include 'core/bootstrap_form.html' with form=form %}
+                    <br />
+                    <button type="submit" class="btn btn-outline-success btn-sm">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+{% block post-js %}
+{% include 'core/hard_refresh_on_back_button_click.html' %}
+<script>
+    function setTime() {
+        var currentDate = new Date();
+        currentDate = currentDate.toUTCString();
+        $('#utc-time').html(currentDate.slice(4, currentDate.length - 3));
+    }
+    setInterval(setTime, 1000);
+</script>
+{% endblock %}

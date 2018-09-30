@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Practice | Solve Custom | Chef's Arena {% endblock %}
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/practice">Practice</a></li>
+            <li class="breadcrumb-item"><a href="/contest/practice/custom">Custom</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Solve</li>
+        </ol>
+    </nav>
+    <div class="custom-card">
+        <h4>Available problemsets: </h4>
+        <hr />
+        <div class="row">
+            {% for set in custom_sets %}
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 20px;">
+                <h5>{{ set.title }}</h5>
+                <p>{{ set.description }}<br />
+                    Author:
+                    <a href="https://codechef.com/users/{{set.author.username}}" target="_blank">{{set.author.username}}</a><br />
+                    Duration: {{set.duration}} minutes.<br />
+                    Number of problem(s): {{ set.problems.count }} <br/>
+                    <a class="btn btn-outline-success btn-sm" href="/contest/practice/custom/solve/{{set.unique_id}}" style="margin-top: 5px;">Solve</a></p>
+                <hr class="no-margin no-padding" />
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+    {% block post-js %}
+    {% include 'core/hard_refresh_on_back_button_click.html' %}
+    {% endblock %}

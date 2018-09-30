@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Practice | Chef's Arena
+{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/practice-landing.css' %}">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/timer.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="container no-padding">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Practice</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card text-center">
+                <h5 class="card-header">Past Cook-Offs</h5>
+                <div class="card-body">
+                    <p class="card-text">Missed a Cook-Off ? Solve its problems in a contest like environment! </p>
+                    {% if not contest %}
+                    <a href="/contest/practice/cookoff" class="btn btn-outline-success btn-sm">Enter</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-center">
+                <h5 class="card-header">Generate Practice Contest</h5>
+                <div class="card-body">
+                    <p class="card-text">Create a custom contest where the questions are randomly selected from the
+                        past Cook-Offs</p>
+                    {% if not contest %}
+                    <a href="/contest/practice/random" class="btn btn-outline-success btn-sm">Enter</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-center">
+                <h5 class="card-header">Custom Contest</h5>
+                <div class="card-body">
+                    <p class="card-text">Cook your own set of problems or practice on existing sets</p>
+                    {% if not contest %}
+                    <a href="/contest/practice/custom" class="btn btn-outline-success btn-sm">Enter</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center padding-top-50">
+        {% if contest %}
+        <hr class="margin-20" />
+        <h5 class="text-center">
+            You have an active practice contest!
+            <br /> (You must complete/end it to create another practice contest!)
+            <br />
+            The contest ends in:
+        </h5>
+        <div id="timer">
+            <ul class="no-padding">
+                <li>
+                    <div class="number" id="hours">00</div>
+                    <div>Hours</div>
+                </li>
+                <li>
+                    <div class="number" id="minutes">00</div>
+                    <div>Minutes</div>
+                </li>
+                <li>
+                    <div class="number" id="seconds">00</div>
+                    <div>Seconds</div>
+                </li>
+            </ul>
+        </div>
+        <br/>
+        <a href='/contest/practice/{{ contest.unique_id }}' class="btn btn-outline-success btn-sm">Enter</a>
+        &nbsp;
+        <a href='/contest/practice/{{ contest.unique_id }}/end' class="btn btn-outline-danger btn-sm">End contest</a>
+        <hr class="margin-20" />
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% if not contest %}
+{% block post-js %}
+{% include 'core/hard_refresh_on_back_button_click.html' %}
+{% include 'core/timer.html' %}
+{% endblock %}
+{% endif %}

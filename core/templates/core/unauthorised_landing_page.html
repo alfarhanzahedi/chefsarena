@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block meta %}
+<meta name="description" content="An extension of CodeChef which aims at providing a fun platform to practice and get better at competitive programming!">
+<meta name="keywords" content="CodeChef, Chef's Arena, Code, Competitive Coding, Competitive Programming">
+{% endblock %}
+{% block title %} Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/landing.css' %}">
+{% endblock %}
+{% block body %}
+<div class="container-index">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="landing">Chef's Arena</h1>
+            <h4><s>Raise Standards</s> Raise Stars!</h4>
+            <hr />
+            <a href="https://api.codechef.com/oauth/authorize?response_type=code&client_id={{client_id}}&state={{state}}&redirect_uri={{redirection_url}}/oauth/success" class="btn btn-outline-success"> Enter </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

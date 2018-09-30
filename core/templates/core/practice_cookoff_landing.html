@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Practice | Cook-Off | Chef's Arena {% endblock %}
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/practice">Practice</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cook-Off</li>
+        </ol>
+    </nav>
+    <div class="custom-card">
+        <h4>General Instructions:</h4>
+        <hr />
+        <ul>
+            <li>All the instructions and rules of a CodeChef Cook-Off are applicable in this category of practice
+                contest.</li>
+            <li>Cook-Offs after March, 2018 will have 6 problems instead of 5. Division 1 and division 2 are identical! </li>
+            <li>You can create/participate in only one practice contest (of either of the three categories) at any
+                instant of time.</li>
+            <li>We believe that it is alright to refer to tutorials, books and other materials, learn a concept
+                and
+                then apply the same to solve a problem during a practice contest. But it is not alright to copy other
+                people&#39;s solutions or seek other people&#39;s help to solve a problem without understanding
+                it.</li>
+            <li><b>Since, v1.0 of CodeChef API does not provide us with the option to 'submit' problems on behalf of users, please have a look at the following video
+                to understand how one is required to submit her/his solution to a problem.</b>
+            </li>
+
+        </ul>
+        <iframe width="100%" height="350" src="https://www.youtube.com/embed/t9hPnUzU_5c?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+        <hr />
+        <h4>Select a Cook-Off:</h4>
+        <hr />
+        <div class="row">
+            {% for cookoff in cookoffs %}
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 20px;">
+                <p><b>{{cookoff.code}}</b> <br /> {{ cookoff.name }}<br />
+                    <a class="btn btn-outline-success btn-sm" href="/contest/practice/cookoff/create/{{cookoff.code}}"
+                        style="margin-top: 5px;">Enter</a></p>
+                <hr class="no-margin no-padding" />
+            </div>
+
+
+
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+    {% block post-js %}
+    {% include 'core/hard_refresh_on_back_button_click.html' %}
+    {% endblock %}

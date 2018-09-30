@@ -1,0 +1,36 @@
+<script>    
+    {% load core_filters %} 
+    {% if contest|has_contest_started %}    
+    var time_left = {{contest | time_left}}; 
+    {% else %}
+    var time_left = {{contest | time_left_to_start}}; 
+    console.log('hi');
+    {% endif %}
+    showTime(time_left);
+    var timer = setInterval(function () {
+        time_left--;
+        showTime(time_left);
+        if (time_left == 0) {
+            clearInterval(timer);
+            setTimeout(reloadPage, 2000);
+        }
+    }, 1000);
+
+    function reloadPage() {
+        document.location.reload(true);
+    }
+
+    function showTime(diff) {
+        var hour = parseInt(diff / 3600, 10);
+        var minute = parseInt((diff - hour * 3600) / 60, 10);
+        var second = diff - hour * 3600 - minute * 60;
+
+        hour = hour < 10 ? '0' + hour : hour;
+        minute = minute < 10 ? '0' + minute : minute;
+        second = second < 10 ? '0' + second : second;
+
+        $('#hours').text(hour);
+        $('#minutes').text(minute);
+        $('#seconds').text(second);
+    }
+</script>

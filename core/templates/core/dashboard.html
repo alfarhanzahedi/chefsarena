@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+{% block title %} Dashboard | Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/dashboard.css' %}">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/breadcrumb.css' %}">
+{% endblock %}
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-sm-8">
+            <h5 class="name">Username: <a href="https://codechef.com/users/{{user.username}}" aria-label="codechef profile" target="_blank"> {{ user.username }} </a></h5>
+            <hr/>
+            <div class="contest">
+                {% if invitations %}
+                <div class="block">
+                    <h4><b>Invitations:</b></h4>
+                    <hr class="ruler">
+                    {% for invitation in invitations %}
+                    <div>
+                        <span><a href="https://codechef.com/users/{{invitation.inviter.username}}" target="_blank">
+                                <b>{{ invitation.inviter.username }}</b></a> invited you for a Battle Royale!</span>
+                        <br />
+                        <span>The timings of the contest are as follows:</span>
+                        <div class="date">
+                            <span>{{ invitation.contest.start_time|date:'jS F, Y H:i a' }}</span>
+                            <span>&nbsp; - &nbsp; </span>
+                            <span>{{ invitation.contest.end_time|date:'jS F, Y H:i a' }}</span>
+                        </div>
+                        <hr />
+                        <a href="/contest/battle/{{invitation.contest.unique_id}}/invitation/accept" class="btn btn-outline-success btn-sm">Accept</a>&nbsp;
+                        <a href="/contest/battle/{{invitation.contest.unique_id}}/invitation/reject" class="btn btn-outline-danger btn-sm">Reject</a>
+                        <hr />
+                    </div>
+                    {% endfor %}
+                </div>
+                <br />
+                {% endif %}
+                {% if practice_contests or battles or problemsets %}
+
+
+                <h4><b>Contest History</b></h4>
+                <hr id="ruler">
+                {% if practice_contests %}
+                <h5 class="type"><b>Practice:</b></h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            {% for contest in practice_contests %}
+                            <tr>
+                                <td scope="row"><a href="/contest/practice/{{contest.unique_id}}">Practice {{ contest.id }}</a></td>
+                                <td class="text-right">{{ contest.start_time|date:'j/m/Y H:i' }}</td>
+                                <td class="text-center">-</td>
+                                <td>{{ contest.end_time|date:'j/m/Y H:i' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p>View all of your practice contest(s) <a href="/dashboard/practice"><u>here</u></a>.</p>
+                {% endif %}
+                {% if battles %}
+                <h5 class="type"><b>Battle Royale:</b></h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            {% for battle in battles %}
+                            <tr>
+                                {% load core_filters %}
+                                <td scope="row" style="padding-right: 0px; margin-right: 0px;"><a href="/contest/battle/{{battle.unique_id}}">
+                                        {{ battle.creator }}'s battle</a>
+                                    {% if battle|is_going_on %}
+                                    (ongoing)
+                                    {% elif not battle|has_contest_started %}
+                                    <b>(future)</b>
+                                    {% endif %}
+                                </td>
+                                <td class="text-right">{{ battle.start_time|date:'j/m/Y H:i' }}</td>
+                                <td class="text-center">-</td>
+                                <td>{{ battle.end_time|date:'j/m/Y H:i' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p>View all of your battle(s) <a href="/dashboard/battles"><u>here</u></a>.</p>
+                {% endif %}
+                {% if problemsets %}
+                <h5 class="type"><b>Problemset(s): </b></h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            {% for set in problemsets %}
+                            <tr>
+                                <td scope="row">{{ set.title }} <a href="/dashboard/problemsets/{{set.unique_id}}/edit" class="text-muted">(edit)</a>
+                                    <p>{{ set.description }} <br /> Duration: {{ set.duration }} minutes.
+                                        <br /> Problems:
+                                        {% for problem in set.problems.all %}
+                                        <span class="bg-success problems"><a href="https://codechef.com/problems/{{problem.code}}" target="_blank">{{problem.code }}</a></span>
+                                        {% endfor %}
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p>View all of your problemset(s) <a href="/dashboard/problemsets"><u>here</u></a>.</p>
+                {% endif %}
+                {% endif %}
+
+            </div>
+        </div>
+
+
+
+    </div>
+    {% endblock %}

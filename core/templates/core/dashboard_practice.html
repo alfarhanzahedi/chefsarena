@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% block title %} Practice Contest(s) | Dashboard | Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Practice contest(s)</li>
+        </ol>
+    </nav>
+    <div class="row">
+        {% if practice_contests %}
+        <div class="contest">
+            <h5 class="type"><b> &nbsp;Practice:</b></h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        {% for contest in practice_contests %}
+                        <tr>
+                            <td scope="row"><a href="/contest/practice/{{contest.unique_id}}">Practice {{ contest.id }}</a></td>
+                            <td class="text-right">{{ contest.start_time|date:'j/m/Y H:i' }}</td>
+                            <td class="text-center">-</td>
+                            <td>{{ contest.end_time|date:'j/m/Y H:i' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

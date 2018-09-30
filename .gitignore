@@ -1,0 +1,5 @@
+*.sqlite3
+*.pyo
+*.pyc
+.vscode/
+latest_db.json

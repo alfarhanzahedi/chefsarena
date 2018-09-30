@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/404.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="col-lg-12">
+        <i class="far fa-frown fa-5x"></i><br><br>
+        <p class="error_code">500</p>
+        <p class="error_msg">Internal Server Error</p>
+        <p class="error-msg">We must have reached our API consumption limit. Please try after 5 minutes!</p>
+        <a href="/" class="btn btn-outline-success btn-sm">Go to Homepage</a>
+    </div>
+</div>
+{% endblock %}

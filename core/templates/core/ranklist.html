@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+{% block title %}
+Ranklist | Battle Royale
+{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/breadcrumb.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/ranklist.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="main">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/battle">Battle Royale</a></li>
+            <li class="breadcrumb-item"><a href="/contest/battle/{{contest.unique_id}}">Battle Ground</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ranklist</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="heading">
+            <div class="contest">
+                <strong>RANKLIST</strong>
+            </div>
+            <div class="style">
+                <a href="https://www.codechef.com/rankings#ACMStyleRanklist">ACM Style Ranklist</a>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">USERNAME</th>
+                        <th scope="col">SCORE</th>
+                        <th scope="col">TOTAL TIME</th>
+                        {% for problem in contest.problems.all %}
+                        <th scope="col">{{ problem.code }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participant in participant_details %}
+                    {% if participant.username == user.username %}
+                    <tr style="font-weight:bold;">
+                    {% else %}
+                    <tr>
+                    {% endif %}
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><a href="https://codechef.com/users/{{participant.username}}" target="_blank">{{ participant.username }}</a></td>
+                        <td>{{ participant.score }} <span class="wrong">({{ participant.total_penalty }})</span></td>
+                        <td style="letter-spacing: 1px;">{{ participant.total_time }}</td>
+                        {% for problem in participant.problems.values %}
+                        <td>{{ problem.status }} 
+                            {% if problem.penalty != '' %}
+                            <span class="wrong">({{ problem.penalty }})</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% if participant.username == user.username %}
+                </b>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block post-js %}
+<script>
+
+setInterval(refreshPage, 120000);
+
+function refreshPage(){
+    window.location.reload(true);
+}
+</script>
+{% endblock %}

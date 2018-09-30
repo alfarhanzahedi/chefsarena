@@ -1,0 +1,203 @@
+{% extends 'core/base.html' %}
+{% block title %} Battle Royale | Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/contest.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/timer.css' %}" />
+
+{% endblock %}
+{% block body %}
+<div class="main">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/battle">Battle Royale</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Battle Ground</li>
+        </ol>
+    </nav>
+    <div class="custom-card">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="problems">
+                    {% load core_filters %}
+                    {% if contest|has_contest_started %}
+                    <h3>Challenges</h3>
+                    <br>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">NAME</th>
+                                <th scope="col">CODE</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for problem in contest.problems.all %}
+                            <tr>
+                                <th scope="row"><a href="https://www.codechef.com/problems/{{problem.code}}" target="_blank">{{problem.name}}</a>
+                                    {% if problem.accepted is 1 %}
+                                    <span data-problem-status="{{problem.code}}" class="text-center text-success">&#10004;</span>
+                                    {% elif problem.accepted is 2 %}
+                                    <span data-problem-status="{{problem.code}}" class="text-center text-danger">&#10008;</span>
+                                    {% else %}
+                                    <span data-problem-status="{{problem.code}}" class="text-center"></span>
+                                    {% endif %}
+                                </th>
+                                <td><a href="https://www.codechef.com/problems/{{problem.code}}" target="_blank">{{problem.code}}</a></td>
+                                <td class="text-right">
+                                    <div>
+                                        {% load core_filters %}
+                                        {% if not contest|has_contest_ended and problem.accepted is not 1 %}
+                                        <button class="btn btn-outline-success btn-sm check-btn" data-problem-btn="{{problem.code}}">Check</button>
+                                        {% endif %}
+                                        <div style="padding-right: 20px;">
+                                            <div id="loader-{{problem.code}}"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+                <br />
+                <div>
+                    <h3>Participants</h3>
+                    <hr />
+                    <div class="padding-75">
+                        {% for participant in contest.participants.all %}
+                        <p><a href="https://codechef.com/users/{{participant.username}}" target="_blank">
+                                {% if participant == contest.creator %}
+                                <b>{{ participant }} (creator)</b>
+                                {% else %}
+                                {{ participant }}
+                                {% endif %}</a></p>
+
+                        {% endfor %}</div>
+                </div>
+                {% if invitations %}
+                <div>
+                    <h3>Invitations (pending)</h3>
+                    <hr />
+                    <div class="padding-75">
+                        {% for invitation in invitations %}
+                        <p><a href="https://codechef.com/users/{{invitation.invitee.username}}" target="_blank">{{invitation.invitee.username }}</a></p>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <br />
+            </div>
+            <div class="col-sm-4 text-center">
+                <div class="card card-body">
+                    {% if not contest|has_contest_started %}
+                    <h5 class="head" id="timer-message">Contest Starts In</h5>
+                    <div id="timer" class="no-padding">
+                        <hr>
+                        <ul>
+                            <li>
+                                <div class="number" id="hours">00</div>
+                                <div>Hours</div>
+                            </li>
+                            <li>
+                                <div class="number" id="minutes">00</div>
+                                <div class="label">Minutes</div>
+                            </li>
+                            <li>
+                                <div class="number" id="seconds">00</div>
+                                <div class="label">Seconds</div>
+                            </li>
+                        </ul>
+                        <hr />
+                    </div>
+                    {% elif not contest|has_contest_ended %}
+                    <h5 class="head" id="timer-message">Contest Ends In</h5>
+
+                    <div id="timer" class="no-padding">
+                        <hr>
+                        <ul>
+                            <li>
+                                <div class="number" id="hours">00</div>
+                                <div>Hours</div>
+                            </li>
+                            <li>
+                                <div class="number" id="minutes">00</div>
+                                <div class="label">Minutes</div>
+                            </li>
+                            <li>
+                                <div class="number" id="seconds">00</div>
+                                <div class="label">Seconds</div>
+                            </li>
+                        </ul>
+                        <hr />
+                    </div>
+                    {% else %}
+                    <h5 class="head">Contest Ended</h5>
+                    <hr>
+                    <p>The contest ended at {{ contest.end_time|date:'H:i (j/m/Y)' }}</p>
+                    {% endif %}
+                </div>
+                {% if contest|has_contest_started %}
+                <div class="card card-body">
+                    <h5 class="head">Contest Score</h5>
+                    <hr>
+                    <p>Score: <span id="score">{{ score }}</span><span class="text-danger"> (<span id="penalty">{{ penalty }}</span>)</span></p>
+                    <hr />
+                    <a href='{{ request.path }}/ranklist' class="btn btn-outline-danger btn-sm end" id="contest-end-btn"
+                        target="_blank">Ranklist</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if contest|has_contest_started %}
+        <div class="details">
+            <br>
+            <h3>Problem Details</h3>
+            <br>
+            <div class="table-responsive" style="margin-bottom: 50px;">
+                <table class="table align">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Contest</th>
+                            <th scope="col">Successful Submissions</th>
+                            <th scope="col">Accuracy</th>
+                            <th scope="col">Author</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for problem in contest.problems.all %}
+                        <tr>
+                            <td scope="row"><a href="https://www.codechef.com/problems/{{problem.code}}" target="_blank">{{ problem.name }}</a></td>
+                            <td>{{ problem.contest_name }} ({{ problem.contest_code }})</td>
+                            <td>{{ problem.contest_successful_submissions }}</td>
+                            <td>{{ problem.contest_accuracy|floatformat:2 }}</td>
+                            <td><a href="https://codechef.com/users/{{problem.author}}" target="_blank">{{ problem.author }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block post-js %}
+<script>
+    window.addEventListener("pageshow", function (event) {
+        var historyTraversal = event.persisted ||
+            (typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2);
+        if (historyTraversal) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
+</script>
+{% include 'core/battle_timer.html' %}
+{% include 'core/submission_checker.html' %}
+{% endblock %}

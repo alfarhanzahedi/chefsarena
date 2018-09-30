@@ -1,0 +1,44 @@
+<script>
+    $('.check-btn').on('click', function () {
+        var checkBtn = this;
+        $(checkBtn).css({
+            'display': 'none'
+        });
+
+        var problemCode = $(checkBtn).data('problem-btn');
+        $('#loader-' + problemCode).css({
+            'display': 'inline-block'
+        });
+        var node = $('[data-problem-status="' + problemCode + '"]');
+        var score = $('#score');
+        var penalty = $('#penalty')
+        $.get('/contest/practice/{{contest.unique_id}}/' + problemCode + '/check', function (data, status) {
+            $('#loader-' + problemCode).css({
+                'display': 'none'
+            });
+            var node = $('[data-problem-status="' + problemCode + '"]');
+            if (data.status == 'AC') {
+                node.html('&#10004;');
+                node.removeClass('text-danger');
+                node.addClass('text-success');
+                score.text(data.score);
+                penalty.text(data.penalty);
+                $(checkBtn).remove()
+            } else if (data.status == 'WA') {
+                node.html('&#10008;');
+                node.addClass('text-danger');
+                node.removeClass('text-success');
+                score.text(data.score);
+                penalty.text(data.penalty);
+                $(checkBtn).css({
+                    'display': 'initial'
+                });
+            } else {
+                alert('No submissions found! Tip: Try again after some time as you submission may take some time to be available on API call results!');
+                $(checkBtn).css({
+                    'display': 'initial'
+                });
+            }
+        });
+    });
+</script>

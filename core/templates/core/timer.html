@@ -1,0 +1,33 @@
+<script>
+    {% load core_filters %}
+    var timeLeft = {{ contest|time_left }};
+    if(timeLeft > 0){
+        showTime(timeLeft);
+        var timer = setInterval(function () {
+            timeLeft--;
+            showTime(timeLeft);
+            if (timeLeft == 0) {
+                clearInterval(timer);
+                setTimeout(reloadPage, 1000);
+            }
+        }, 1000);
+
+        function reloadPage(){
+                document.location.reload(true);
+        }
+
+        function showTime(diff) {
+            var hour = parseInt(diff / 3600, 10);
+            var minute = parseInt((diff - hour * 3600) / 60, 10);
+            var second = diff - hour * 3600 - minute * 60;
+
+            hour = hour < 10 ? '0' + hour : hour;
+            minute = minute < 10 ? '0' + minute : minute;
+            second = second < 10 ? '0' + second : second;
+
+            $('#hours').text(hour);
+            $('#minutes').text(minute);
+            $('#seconds').text(second);
+        }
+    }
+</script>

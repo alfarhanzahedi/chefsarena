@@ -1,0 +1,50 @@
+.contest {
+    padding: 15px;
+}
+
+.name {
+    padding: .60rem .80rem;
+    font-weight: 600;
+}
+
+.top {
+    border-top: 1.5px solid rgba(0, 0, 0, .250);
+}
+
+.heading {
+    font-weight: 600;
+    font-size: 16px;
+
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+a:hover {
+    color: black;
+}
+
+.rate {
+    font-weight: 550;
+    font-size: 14px;
+    vertical-align: middle !important;
+}
+
+#small {
+    font-size: 12px;
+}
+
+.type {
+    margin-bottom: 1rem;
+}
+
+.problems {
+    display: inline-block;
+    padding: 2px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}

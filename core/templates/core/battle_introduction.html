@@ -1,0 +1,102 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Battle Royale | Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/contest.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/timer.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Battle Royale</li>
+        </ol>
+    </nav>
+    <div class="custom-card">
+        <h4><b>Battle Royale</b></h4>
+        <hr />
+        <h5>Create custom rooms and compete among your friends!</h5>
+        <hr />
+        <ul>
+            <li>A 'Battle Royale' is a three-hour coding contest where you can polish your computer programming skills,
+                and compete among your friends.</li>
+            <li>A 'Battle Royale' consists of 5 questions of varying difficulties to test your skills.</li>
+            <li>The questions are randomly selected from past cook-offs.</li>
+            <li>You can create only one 'Battle Royale' at a time.</li>
+            <li>You can invite a maximum of 4 of your friends.</li>
+            <li>You are by-default a participant of the battle you create.</li>
+            <li>All the other instructions and rules of a CodeChef Cook-Off are applicable in a 'Battle Royale'.</li>
+
+            <li>We believe that it is alright to refer to tutorials, books and other materials, learn a concept and
+                then apply the same to solve a problem during a practice contest. But it is not alright to copy other
+                people&#39;s solutions or seek other people&#39;s help to solve a problem without understanding
+                it.</li>
+            <li><b>Since, v1.0 of CodeChef API does not provide us with the option to 'submit' problems on behalf of users,
+                    please have a look at the following video
+                    to understand how one is required to submit her/his solution to a problem.</b>
+            </li>
+
+        </ul>
+        <iframe width="100%" height="350" src="https://www.youtube.com/embed/t9hPnUzU_5c?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+
+        <hr />
+        <div id="contest-handler" class="text-center">
+            {% load core_filters %}
+            {% if contest is None %}
+            <a class="btn btn-outline-success btn-sm" href="/contest/battle/create">Start a new battle</a>
+            {% elif contest|has_contest_started %}
+            <h5 id="timer-message" class="text-center">You are in an ongoing battle! <br />The contest ends in:</h5>
+            {% else %}
+            <h5 id="timer-message" class="text-center">The Battle Royale begins in:</h5>
+            {% endif %}
+
+            {% if contest is not None %}
+            <div id="timer">
+                <ul class="no-padding">
+                    <li>
+                        <div class="number" id="hours">00</div>
+                        <div>Hours</div>
+                    </li>
+                    <li>
+                        <div class="number" id="minutes">00</div>
+                        <div class="label">Minutes</div>
+                    </li>
+                    <li>
+                        <div class="number" id="seconds">00</div>
+                        <div class="label">Seconds</div>
+                    </li>
+                </ul>
+            </div>
+            <p><small>List of all ongoing battle(s) can be found in your dashboard.</small></p>
+            <hr />
+            <a href='{{ request.path }}/{{ contest.unique_id }}' class="btn btn-outline-success btn-sm">Enter</a>
+            &nbsp;
+            {% endif %}
+            <!--<a href='{{ request.path }}/{{ contest.unique_id }}/end' class="btn btn-outline-danger btn-sm end">End
+                contest</a>-->
+
+        </div>
+        <hr />
+    </div>
+</div>
+{% endblock %}
+{% if not contest %}
+{% block post-js %}
+<script>
+    window.addEventListener("pageshow", function (event) {
+        var historyTraversal = event.persisted ||
+            (typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2);
+        if (historyTraversal) {
+            window.location.reload();
+        }
+    });
+</script>
+{% if contest is not None %}
+{% include 'core/battle_timer.html' %}
+{% endif %}
+{% endblock %}
+{% endif %}

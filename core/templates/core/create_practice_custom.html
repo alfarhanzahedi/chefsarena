@@ -1,0 +1,89 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Edit Problemset  | Chef's Arena
+{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/bootstrap-form.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/create-practice-custom.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/practice">Practice</a></li>
+            <li class="breadcrumb-item"><a href="/contest/practice/custom">Custom</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol>
+    </nav>
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 custom-card">
+                <h3>Create Custom Problemset</h3>
+                <hr />
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% include 'core/create_practice_custom_form.html' with form=form %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block post-js %}
+<script>
+    var _problemCode, _txt;
+    var selected = [];
+    
+    {% if form.instance.pk is not None %}
+    {% for problem in form.instance.problems.all%}
+    $('input[value="{{problem.id}}"]').attr('checked', 'checked');
+    _problemCode = $('#problem-{{problem.id}}').text();
+    _txt = _problemCode.slice(1, _problemCode.length - 1);
+    selected.push(_txt);
+    {% endfor %}
+    updateSelected();
+    {% endif %}
+
+    
+    $('input[name="problems"]').on('click', function () {
+        var value = $(this).val();
+        var problemCode = $('#problem-' + value).text();
+        var txt = problemCode.slice(1, problemCode.length - 1);
+        if ($(this).prop('checked') == true) {
+            selected.push(txt);
+        } else {
+            selected = selected.filter(function (item) {
+                return item !== txt;
+            });
+        }
+        updateSelected();
+    });
+
+    function updateSelected() {
+        var data = '<b>Selected problems: </b>';
+        for (var i = 0; i < selected.length - 1; i++) {
+            data += '<span class="bg-success">' + selected[i] + '</span> &nbsp;';
+        }
+        if (selected[i] != undefined)
+            data += '<span class="bg-success">' + selected[i] + '</span>';
+        $('#selected-problems-list').html(data);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+.container {
+    margin: auto;
+    width: 90%;
+}
+
+.card {
+    margin-top: 20%;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    font-weight: 500;
+    background-color: #212121;
+    color: white;
+}
+
+@media screen and (min-width: 0px) and (max-width: 460px) {
+    .card {
+        margin-top: 20px;
+    }
+
+}

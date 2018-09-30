@@ -1,0 +1,19 @@
+input.form-control{
+    border: 0px;
+    border-bottom: 1px solid #CCCCCC;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+
+.form-control:focus{
+    border-color: #AAAAAA;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.form-control.is-invalid:focus{
+    border-color: #DC3545;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

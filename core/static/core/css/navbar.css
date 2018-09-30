@@ -1,0 +1,47 @@
+@media screen and (min-width: 0px) and (max-width: 465px) {
+    .navbar-brand {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 465px) {
+    .navbar-brand {
+        display: block;
+    }
+}
+
+.navbar {
+    margin-right: 10%;
+    height: 75px;
+}
+
+.navbar-nav {
+    display: inline;
+    position: absolute;
+    right: 0;
+}
+
+.navbar-brand img {
+    width: 127px;
+    height: 100px;
+    margin-left: 30%;
+    margin-bottom: 10px;
+}
+
+.navbar-nav .nav-item,
+.navbar-nav .nav-item a {
+    display: inline;
+}
+
+.navbar-nav .nav-item {
+    padding-left: 20px;
+}
+
+/*
+css declaration only for Chrome/Safari
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .navbar-brand img {
+        margin-top: 40px;
+    }
+}

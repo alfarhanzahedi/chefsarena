@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% block title %} Dashboard | Chef's Arena {% endblock %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Battle Royale(s)</li>
+        </ol>
+    </nav>
+    <div class="row">
+
+        {% if battles %}
+
+        <h5 class="type"><b> &nbsp;Battle Royale:</b></h5>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    {% for battle in battles %}
+                    <tr>
+                        {% load core_filters %}
+                        <td scope="row" style="padding-right: 0px; margin-right: 0px;"><a href="/contest/battle/{{battle.unique_id}}">
+                                {{ battle.creator }}'s battle</a>
+                            {% if battle|is_going_on %}
+                            (ongoing)
+                            {% elif not battle|has_contest_started %}
+                            <b>(future)</b>
+                            {% endif %}
+                        </td>
+                        <td class="text-right">{{ battle.start_time|date:'j/m/Y H:i' }}</td>
+                        <td class="text-center">-</td>
+                        <td>{{ battle.end_time|date:'j/m/Y H:i' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

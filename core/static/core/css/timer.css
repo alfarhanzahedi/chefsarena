@@ -1,0 +1,13 @@
+#timer ul {
+    list-style-type: none;
+    margin: 0px;
+}
+
+#timer ul li {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+#timer ul li .number {
+    display: inline;
+}

@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Practice | Random | Chef's Arena {% endblock %}
+
+{% block body %}
+<div class="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/contest/practice">Practice</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Random</li>
+        </ol>
+    </nav>
+    <div class="custom-card">
+        <h4>General Instructions:</h4>
+        <hr />
+        <ul>
+            <li>This is a three-hour practice coding contest where you can polish your computer programming
+                skills.</li>
+            <li>Each contest consists of 5 problems of varying difficulties to test
+                your skills.</li>
+            <li>The problems are randomly selected from the past CodeChef Cook-Offs.</li>
+            <li>You can create/participate in only one practice contest (of either of the three categories) at any
+                instant of time.</li>
+            <li>All the instructions and rules of a CodeChef Cook-Off are applicable in the practice contest.</li>
+            <li>We believe that it is alright to refer to tutorials, books and other materials, learn a concept
+                and
+                then apply the same to solve a problem during a practice contest. But it is not alright to copy other
+                people&#39;s solutions or seek other people&#39;s help to solve a problem without understanding
+                it.</li>
+            <li><b>Since, v1.0 of CodeChef API does not provide us with the option to 'submit' problems on behalf of users,
+                    please have a look at the following video
+                    to understand how one is required to submit her/his solution to a problem.</b>
+            </li>
+
+        </ul>
+        <iframe width="100%" height="350" src="https://www.youtube.com/embed/t9hPnUzU_5c?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+        <hr />
+
+        <div class="text-center">
+            <a class="btn btn-outline-success btn-sm" href="/contest/practice/random/create">Create a practice contest</a>
+        </div>
+        <hr />
+    </div>
+</div>
+{% endblock %}
+{% block post-js %}
+{% include 'core/hard_refresh_on_back_button_click.html' %}
+{% endblock %}

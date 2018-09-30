@@ -1,0 +1,66 @@
+@media screen and (min-width: 0px) and (max-width: 575px) {
+    #main {
+        width: 85%;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 450px) {
+    .style {
+        float: left;
+    }
+}
+
+.row {
+    padding: 15px 15px 10px 15px;
+    border-top: 1px black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.10), 0 5px 5px rgba(0, 0, 0, 0.20);
+}
+
+.heading {
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #999;
+}
+
+.time {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.contest {
+    font-size: 20px;
+    text-transform: uppercase;
+    padding: 25px 10px;
+    font-weight: 450;
+    float: left;
+}
+
+.style {
+    float: right;
+    padding: 32px 10px 0;
+    font-style: italic;
+}
+
+.table-responsive {
+    padding: 10px 0;
+    text-align: center;
+}
+
+table tr td:first-child,
+table tr th:first-child {
+    text-align: left;
+}
+
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    text-align: left;
+}
+
+.wrong {
+    color: red;
+}

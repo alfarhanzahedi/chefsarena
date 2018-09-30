@@ -1,0 +1,57 @@
+.card-body {
+    padding-bottom: 0;
+}
+
+.card {
+    margin-top: 10px;
+}
+
+
+li span {
+    display: block;
+}
+
+.head {
+    padding-top: 10px;
+}
+
+.end {
+    width: 95px;
+    margin: 0px auto 15px auto;
+}
+
+.padding-75{
+    padding-left: 0.75rem;
+}
+
+div[id^="loader"] {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid gray;
+    width: 23px;
+    height: 23px;
+    -webkit-animation: spin 2s linear infinite;
+    /* Safari */
+    animation: spin 2s linear infinite;
+    display:none;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
