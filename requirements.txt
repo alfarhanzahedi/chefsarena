@@ -1,5 +1,5 @@
 autopep8==1.4
-certifi==2018.8.24
+certifi==2022.12.7
 chardet==3.0.4
 Django==2.1
 django-debug-toolbar==1.10.1
